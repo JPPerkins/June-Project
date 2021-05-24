@@ -29,17 +29,35 @@ public class PlayerController : MonoBehaviour
 
     private void GetMovementInput()
     {
-        if (Input.GetKey(KeyCode.A)) {
-            transform.Translate(Vector3.left * speed * Time.deltaTime);
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, 0.0f);
+
+        if (Mathf.Abs(thisRigidbody.velocity.x) > speed)
+        {
+            thisRigidbody.velocity += Vector3.zero;
+        }    
+        else 
+        {
+            thisRigidbody.velocity += movement * speed;
         }
-        else if (Input.GetKey(KeyCode.D)) {
-            transform.Translate(Vector3.right * speed * Time.deltaTime);
-        }
+        
+        // OLD MOVEMENT CODE
+        // if (Input.GetKey(KeyCode.A)) {
+        //     transform.Translate(Vector3.left * speed * Time.deltaTime);
+        // }
+        // else if (Input.GetKey(KeyCode.D)) {
+        //     transform.Translate(Vector3.right * speed * Time.deltaTime);
+        // }
 
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping) {
-            thisRigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange); // += Vector3.up * jumpHeight;
+            //thisRigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange); // += Vector3.up * jumpHeight;
+            //movement += (Vector3.up * speed);
+            //Debug.Log(Vector3.up * jumpHeight);
+            thisRigidbody.velocity += Vector3.up * jumpHeight;
             isJumping = true;
         }
+    
+        
     }
 
     public void Respawn()
